@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+
+  <body>
+    <input type="text" />
+    <script>
+      const input = document.querySelector("input");
+      const values = [
+        "(",
+        ")",
+        "%",
+        "AC",
+        7,
+        8,
+        9,
+        "/",
+        4,
+        5,
+        6,
+        "*",
+        1,
+        2,
+        3,
+        "-",
+        0,
+        ".",
+        "=",
+        "+",
+      ];
+      const nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      const operations = {
+        "+": (a, b) => a + b,
+        "-": (a, b) => a - b,
+        "*": (a, b) => a * b,
+        "/": (a, b) => a / b,
+      };
+      function createButton(value) {
+        let button = document.createElement("button");
+        let body = document.querySelector("body");
+        if (nums.includes(value)) button.classList.add("customBtn");
+        button.innerText = value;
+        if (value === "AC") {
+          button.onclick = clearInput;
+        } else if (value == "=") {
+          button.onclick = calculator;
+        } else {
+          button.onclick = function () {
+            writeInput(value);
+          };
+        }
+        body.appendChild(button);
+      }
+
+      function drawElements(array) {
+        for (let i = 0; i < array.length; i++) createButton(array[i]);
+      }
+      drawElements(values);
+
+      function calculator() {
+        let array = input.value.split(" ");
+        input.value += ` = ${operations[array[1]](
+          parseFloat(array[0]),
+          parseFloat(array[2])
+        )}`;
+      }
+      function writeInput(value) {
+        if (!nums.includes(value) && value !== ".") {
+          input.value += ` ${value} `;
+        } else {
+          input.value += value;
+        }
+      }
+      function clearInput() {
+        input.value = "";
+      }
+    </script>
+  </body>
+</html>
